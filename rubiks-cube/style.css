@@ -1,0 +1,75 @@
+* {
+    margin: 0;
+    padding: 0;
+    cube-sizing: border-cube;
+}
+body {
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(to bottom right, rgb(138, 255, 239),rgb(255, 255, 255), rgb(255, 126, 206));
+  overflow: hidden;
+  cursor: move;
+  perspective: 1000px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cube {
+  position: absolute;
+  width: 20rem;
+  height: 20rem;
+  transform-style: preserve-3d;
+  transition: all 1.5s ease-out;
+  background-color: #000;
+}
+.cube div {
+  width: 20rem;
+  height: 20rem;
+  position: absolute;
+  background: #000;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap:2px;
+  border: 1px solid #00000083;
+  border-radius: 0.25rem;
+}
+
+.cube div span {
+  height: calc(20rem / 3 -6px);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: 100%;
+  border: 1px solid #00000083;
+  border-radius: 0.35rem;
+  background:linear-gradient(55deg,#ffffff3f 30%, transparent 70%);
+}
+
+.top {
+  bottom: 10rem;
+  transform: rotateX(90deg);
+}
+
+.bottom {
+  top: 10rem;
+  transform: rotateX(-90deg);
+}
+
+.left {
+  right: 10rem;
+  transform: rotateY(-90deg)
+}
+
+.right {
+  left : 10rem;
+  transform: rotateY(90deg)
+}
+
+.front {
+  transform: translateZ(10rem)
+}
+
+.back {
+  transform: translateZ(-10rem)
+}
