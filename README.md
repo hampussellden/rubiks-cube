@@ -1,7 +1,6 @@
 # Rubik's Cube 4x4x4
 
-A simple visual presentation of a 4x4x4 Rubik's cube.
-Demo: https://codepen.io/Hampus-Selld-n/pen/eYbzpLj 
+A simple visual presentation of a 4x4x4 Rubik's cube. See this [demo](https://codepen.io/Hampus-Selld-n/pen/eYbzpLj)
 
 ## Contributing
 
