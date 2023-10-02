@@ -19,28 +19,50 @@ for(var direction of directions){
     div.querySelector('span').style.backgroundColor  = colors[colors[directions.indexOf(direction)]];
 }
 
-var isKeyDown = false;
-const startX = -290;
-const startY = -140;
-
-function rotateCube(x, y) {
-    console.log(x, y)
-    let Xvalue = Math.floor((x / 2) + 100)
-    let Yvalue = Math.floor((y / 2) + 100)
-
-    cube.style.transform = `rotateX(-${Yvalue}deg) rotateY(${Xvalue}deg)`
+const handleOnDown = e => {
+    cube.dataset.mouseXDownAt = e.clientX;
+    cube.dataset.mouseYDownAt = e.clientY;
 }
 
-rotateCube(startX, startY)
+const handleOnUp = () => {25
+  cube.dataset.mouseXDownAt = "0";  
+  cube.dataset.prevXPercentage = cube.dataset.percentageX;
+  cube.dataset.mouseYDownAt = "0";  
+  cube.dataset.prevYPercentage = cube.dataset.percentageY;
+}
 
-document.documentElement.addEventListener('mousedown', function (e) {
-    isKeyDown = true;
-    rotateCube(e.clientX, e.clientY)
-})
-document.documentElement.addEventListener('mouseup', function (e) {
-    isKeyDown = false;
-    rotateCube(startX, startY)
-})
-document.documentElement.addEventListener('mousemove', function (e) {
-    isKeyDown && rotateCube(e.clientX, e.clientY)
-})
+const handleOnMove = e => {
+    if(cube.dataset.mouseYDownAt === "0") return;
+    if(cube.dataset.mouseXDownAt === "0") return;
+    const mouseDeltaY = parseFloat(cube.dataset.mouseYDownAt) - e.clientY, 
+        maxDeltaY = window.innerHeight / 2;
+    const mouseDeltaX = parseFloat(cube.dataset.mouseXDownAt) - e.clientX,
+          maxDeltaX = window.innerWidth / 2;
+
+    const percentageY = (mouseDeltaY / maxDeltaY) * 100,
+            nextPercentageUnconstrainedY = parseFloat(cube.dataset.prevYPercentage) + percentageY,
+            nextPercentageY = nextPercentageUnconstrainedY;
+    const percentageX = (mouseDeltaX / maxDeltaX) * 100,
+          nextPercentageUnconstrainedX = parseFloat(cube.dataset.prevXPercentage) + percentageX,
+          nextPercentageX = nextPercentageUnconstrainedX
+
+    cube.dataset.percentageY = nextPercentageY;
+    cube.dataset.percentageX = nextPercentageX;
+    console.log(nextPercentageY, nextPercentageX);
+    cube.animate({
+        transform: `rotateX(${nextPercentageY*3.6}deg) rotateY(${nextPercentageX*3.6}deg)`
+    },{ fill: "forwards" });
+    
+}
+
+window.onmousedown = e => handleOnDown(e);
+
+window.ontouchstart = e => handleOnDown(e.touches[0]);
+
+window.onmouseup = e => handleOnUp(e);
+
+window.ontouchend = e => handleOnUp(e.touches[0]);
+
+window.onmousemove = e =>  handleOnMove(e);
+
+window.ontouchmove = e => handleOnMove(e.touches[0]);
